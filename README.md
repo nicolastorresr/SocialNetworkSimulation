@@ -9,27 +9,27 @@ git clone https://github.com/nicolastorresr/SocialNetworkSimulation.git
 cd SocialNetworkSimulation
 ```
 2. Create a virtual environment:
-`
+```
 python -m venv venv
 source venv/bin/activate  # On Windows, use venv\Scripts\activate
-`
+```
 3. Install the required packages:
-`
+```
 pip install -r requirements.txt
-`
+```
 
 ## Running the Simulation
 
 1. Configure the simulation parameters in `config/simulation_config.yaml`.
 
 2. Run the simulation:
-`
+```
 python scripts/run_simulation.py
-`
+```
 4. Analyze the results:
-`
+```
 python scripts/analyze_results.py
-`
+```
 
 ## Project Structure
 
@@ -47,9 +47,9 @@ python scripts/analyze_results.py
 ## Running Tests
 
 To run the unit tests:
-`
+```
 python -m unittest discover tests
-`
+```
 ## Contributing
 
 Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
