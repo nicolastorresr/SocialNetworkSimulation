@@ -5,8 +5,8 @@ This project simulates a social network using autonomous agents based on Large L
 
 1. Clone the repository:
 `
-git clone https://github.com/yourusername/llm-social-network-study.git
-cd llm-social-network-study
+git clone https://github.com/nicolastorresr/SocialNetworkSimulation.git
+cd SocialNetworkSimulation
 `
 2. Create a virtual environment:
 `
