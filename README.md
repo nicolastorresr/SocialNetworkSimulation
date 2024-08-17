@@ -4,10 +4,10 @@ This project simulates a social network using autonomous agents based on Large L
 ## Setup
 
 1. Clone the repository:
-`
+```
 git clone https://github.com/nicolastorresr/SocialNetworkSimulation.git
 cd SocialNetworkSimulation
-`
+```
 2. Create a virtual environment:
 `
 python -m venv venv
