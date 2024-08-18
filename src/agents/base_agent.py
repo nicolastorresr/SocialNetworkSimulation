@@ -1,6 +1,6 @@
 import uuid
 import random
-import anthropic
+import openai
 from typing import Dict, List, Optional
 
 class BaseAgent:
@@ -10,18 +10,20 @@ class BaseAgent:
         self.content_preferences = content_preferences
         self.connections = set()
         self.messages = []
-        self.client = anthropic.Client(api_key)
+        openai.api_key = api_key
 
     def generate_message(self, context: List[str]) -> Optional[str]:
         prompt = self._create_message_prompt(context)
         try:
-            response = self.client.completion(
-                model="claude-2",
-                prompt=prompt,
-                max_tokens_to_sample=100,
-                stop_sequences=["\n"]
+            response = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are a social media user."},
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=100
             )
-            return response.completion.strip()
+            return response.choices[0].message['content'].strip()
         except Exception as e:
             print(f"Error generating message for agent {self.id}: {e}")
             return None
@@ -47,13 +49,15 @@ class BaseAgent:
     def interact(self, message: str) -> bool:
         prompt = self._create_interaction_prompt(message)
         try:
-            response = self.client.completion(
-                model="claude-2",
-                prompt=prompt,
-                max_tokens_to_sample=1,
-                stop_sequences=["\n"]
+            response = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are a social media user."},
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=1
             )
-            return response.completion.strip().lower() == "yes"
+            return response.choices[0].message['content'].strip().lower() == "yes"
         except Exception as e:
             print(f"Error deciding interaction for agent {self.id}: {e}")
             return False
