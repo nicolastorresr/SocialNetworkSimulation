@@ -1,3 +1,6 @@
+llm:
+  api_key: "your-anthropic-api-key-here"
+
 simulation:
   num_agents: 1000
   duration: 1000  # time steps
