@@ -10,15 +10,16 @@ class Simulator:
         self.network = SocialNetwork()
         self.num_agents = self.config['simulation']['num_agents']
         self.duration = self.config['simulation']['duration']
+        self.api_key = self.config['llm']['api_key']
 
     def initialize(self):
         for _ in range(self.num_agents):
             personality = {trait: random.random() for trait in self.config['agents']['personality_traits']}
             content_preferences = random.sample(self.config['content']['topics'], 3)
             if random.random() < self.config['agents']['types'][0]['proportion']:
-                agent = InfluencerAgent(personality, content_preferences)
+                agent = InfluencerAgent(personality, content_preferences, self.api_key)
             else:
-                agent = CasualAgent(personality, content_preferences)
+                agent = CasualAgent(personality, content_preferences, self.api_key)
             self.network.add_agent(agent)
 
         # Initialize connections
@@ -37,11 +38,18 @@ class Simulator:
     def run(self):
         for step in range(self.duration):
             for agent in self.network.agents.values():
-                message = agent.generate_message()
+                context = self._get_context(agent)
+                message = agent.generate_message(context)
                 if message:
                     self.network.propagate_message(agent.id, message)
             if step % self.config['network']['connection_update_frequency'] == 0:
                 self.update_network()
+
+    def _get_context(self, agent):
+        context = []
+        for neighbor in self.network.get_neighbors(agent.id):
+            context.extend(neighbor.messages[-2:])  # Get last 2 messages from each neighbor
+        return context[-10:]  # Limit context to last 10 messages
 
     def update_network(self):
         for agent in self.network.agents.values():
