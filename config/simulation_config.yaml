@@ -3,7 +3,7 @@ llm:
 
 simulation:
   num_agents: 10
-  duration: 100  # time steps
+  duration: 50  # time steps
   initial_network_type: "scale_free"  # options: random, scale_free, small_world
 
 agents:
