@@ -1,0 +1,48 @@
+simulation:
+  num_agents: 1000
+  duration: 1000  # time steps
+  initial_network_type: "scale_free"  # options: random, scale_free, small_world
+
+agents:
+  types:
+    - name: "influencer"
+      proportion: 0.1
+      content_generation_rate: 0.5  # messages per time step
+    - name: "casual"
+      proportion: 0.9
+      content_generation_rate: 0.1  # messages per time step
+
+  personality_traits:
+    - openness
+    - conscientiousness
+    - extraversion
+    - agreeableness
+    - neuroticism
+
+content:
+  topics:
+    - politics
+    - entertainment
+    - technology
+    - sports
+    - science
+  max_length: 280  # characters
+
+network:
+  initial_connections_mean: 5
+  initial_connections_std: 2
+  connection_update_frequency: 10  # time steps
+
+analysis:
+  centrality_measure: "pagerank"  # options: degree, betweenness, pagerank
+  community_detection_algorithm: "louvain"
+  influencer_threshold: 0.8  # pagerank score
+  topic_modeling:
+    num_topics: 5
+    method: "lda"  # options: lda, nmf
+
+output:
+  save_network_snapshots: true
+  snapshot_frequency: 100  # time steps
+  save_messages: true
+  save_agent_states: true
