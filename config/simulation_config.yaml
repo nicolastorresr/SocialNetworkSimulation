@@ -2,8 +2,8 @@ llm:
   api_key: "your-api-key-here"
 
 simulation:
-  num_agents: 1000
-  duration: 1000  # time steps
+  num_agents: 10
+  duration: 100  # time steps
   initial_network_type: "scale_free"  # options: random, scale_free, small_world
 
 agents:
@@ -29,7 +29,7 @@ content:
     - technology
     - sports
     - science
-  max_length: 280  # characters
+  max_length: 100  # characters
 
 network:
   initial_connections_mean: 5
