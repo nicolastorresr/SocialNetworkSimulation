@@ -1,5 +1,5 @@
 llm:
-  api_key: "your-anthropic-api-key-here"
+  api_key: "your-api-key-here"
 
 simulation:
   num_agents: 1000
