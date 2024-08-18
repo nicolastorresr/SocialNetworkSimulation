@@ -2,25 +2,81 @@ import uuid
 from typing import Dict, List
 import random
 
+import anthropic
+import uuid
+from typing import Dict, List, Optional
+
 class BaseAgent:
-    def __init__(self, personality: Dict[str, float], content_preferences: List[str]):
-        self.id = uuid.uuid4()
+    def __init__(self, personality: Dict[str, float], content_preferences: List[str], api_key: str):
+        self.id = str(uuid.uuid4())
         self.personality = personality
         self.content_preferences = content_preferences
         self.connections = set()
         self.messages = []
+        self.client = anthropic.Client(api_key)
 
-    def generate_message(self) -> str:
-        topic = random.choice(self.content_preferences)
-        sentiment = sum(self.personality.values()) / len(self.personality)
-        return f"Message about {topic} with sentiment {sentiment:.2f} from {self.id}"
+    def generate_message(self, context: List[str]) -> Optional[str]:
+        prompt = self._create_message_prompt(context)
+        try:
+            response = self.client.completion(
+                model="claude-2",
+                prompt=prompt,
+                max_tokens_to_sample=100,
+                stop_sequences=["\n"]
+            )
+            return response.completion.strip()
+        except Exception as e:
+            print(f"Error generating message for agent {self.id}: {e}")
+            return None
+
+    def _create_message_prompt(self, context: List[str]) -> str:
+        personality_str = ", ".join([f"{k}: {v:.2f}" for k, v in self.personality.items()])
+        preferences_str = ", ".join(self.content_preferences)
+        context_str = "\n".join(context[-5:])  # Use last 5 messages for context
+
+        return f"""
+        You are a social media user with the following personality traits:
+        {personality_str}
+
+        Your content preferences are: {preferences_str}
+
+        Recent messages in your network:
+        {context_str}
+
+        Given your personality and preferences, and considering the recent messages, 
+        generate a short social media post (max 280 characters):
+        """
 
     def interact(self, message: str) -> bool:
-        # Simple interaction logic based on content preference
-        for preference in self.content_preferences:
-            if preference in message:
-                return random.random() < 0.7  # 70% chance to interact if preferred topic
-        return random.random() < 0.3  # 30% chance to interact otherwise
+        prompt = self._create_interaction_prompt(message)
+        try:
+            response = self.client.completion(
+                model="claude-2",
+                prompt=prompt,
+                max_tokens_to_sample=1,
+                stop_sequences=["\n"]
+            )
+            return response.completion.strip().lower() == "yes"
+        except Exception as e:
+            print(f"Error deciding interaction for agent {self.id}: {e}")
+            return False
+
+    def _create_interaction_prompt(self, message: str) -> str:
+        personality_str = ", ".join([f"{k}: {v:.2f}" for k, v in self.personality.items()])
+        preferences_str = ", ".join(self.content_preferences)
+
+        return f"""
+        You are a social media user with the following personality traits:
+        {personality_str}
+
+        Your content preferences are: {preferences_str}
+
+        You've encountered the following message:
+        "{message}"
+
+        Based on your personality and preferences, would you interact with this message?
+        Answer with only 'yes' or 'no':
+        """
 
     def update_connections(self, network):
         # Remove connections with low interaction
