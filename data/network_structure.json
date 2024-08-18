@@ -1,0 +1,4 @@
+{
+  "nodes": ["agent1", "agent2", "agent3", ...],
+  "edges": [["agent1", "agent2"], ["agent1", "agent3"], ...]
+}
