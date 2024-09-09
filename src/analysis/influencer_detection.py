@@ -3,7 +3,17 @@ from collections import Counter
 
 def identify_influencers(network, threshold=0.8):
     pagerank = nx.pagerank(network.graph)
-    return {node: score for node, score in pagerank.items() if score > threshold}
+    threshold=0.114
+    mydic={}
+    for agent in network.agents:
+        print(agent, network.agents[agent])
+    print("jdbcal")
+    for node, score in pagerank.items():
+        print(node, score)
+        if score >= threshold:
+            mydic[node]=score
+    return mydic
+#{node: score for node, score in pagerank.items() if score >= threshold}
 
 def calculate_engagement_rate(network, agent_id):
     agent = network.agents[agent_id]

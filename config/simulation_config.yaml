@@ -1,18 +1,18 @@
 llm:
-  api_key: "your-api-key-here"
+  api_key: "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"
 
 simulation:
   num_agents: 10
-  duration: 50  # time steps
+  duration: 5  # time steps
   initial_network_type: "scale_free"  # options: random, scale_free, small_world
 
 agents:
   types:
     - name: "influencer"
-      proportion: 0.1
+      proportion: 0.3
       content_generation_rate: 0.5  # messages per time step
     - name: "casual"
-      proportion: 0.9
+      proportion: 0.7
       content_generation_rate: 0.1  # messages per time step
 
   personality_traits:

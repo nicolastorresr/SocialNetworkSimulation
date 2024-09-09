@@ -1,5 +1,5 @@
-from src.network.social_network import SocialNetwork
-from src.agents.agent_types import InfluencerAgent, CasualAgent
+from network.social_network import SocialNetwork
+from agents.agent_types import InfluencerAgent, CasualAgent
 import random
 import yaml
 
@@ -21,6 +21,7 @@ class Simulator:
             else:
                 agent = CasualAgent(personality, content_preferences, self.api_key)
             self.network.add_agent(agent)
+            print(agent.id)
 
         # Initialize connections
         for agent in self.network.agents.values():
@@ -37,6 +38,7 @@ class Simulator:
 
     def run(self):
         for step in range(self.duration):
+            print(step)
             for agent in self.network.agents.values():
                 context = self._get_context(agent)
                 message = agent.generate_message(context)

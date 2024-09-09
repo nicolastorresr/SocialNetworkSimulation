@@ -10,8 +10,8 @@ from agents.agent_types import InfluencerAgent, CasualAgent
 from network.social_network import SocialNetwork
 
 class TestBaseAgent(unittest.TestCase):
-    def setUp(self):
-        self.agent = BaseAgent({'openness': 0.5, 'conscientiousness': 0.5}, ['technology', 'science'])
+    def setUp(self, api_key):
+        self.agent = BaseAgent({'openness': 0.5, 'conscientiousness': 0.5}, ['technology', 'science'], api_key)
 
     def test_generate_message(self):
         message = self.agent.generate_message()

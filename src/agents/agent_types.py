@@ -2,12 +2,12 @@ from .base_agent import BaseAgent
 import random
 
 class InfluencerAgent(BaseAgent):
-    def __init__(self, personality, content_preferences):
-        super().__init__(personality, content_preferences)
+    def __init__(self, personality, content_preferences, api_key):
+        super().__init__(personality, content_preferences, api_key)
         self.influence_score = random.uniform(0.7, 1.0)
 
-    def generate_message(self):
-        base_message = super().generate_message()
+    def generate_message(self, context):
+        base_message = super().generate_message(context)
         return f"Trending: {base_message}"
 
     def interact(self, message: str) -> bool:
@@ -15,13 +15,13 @@ class InfluencerAgent(BaseAgent):
         return super().interact(message) or random.random() < self.influence_score
 
 class CasualAgent(BaseAgent):
-    def __init__(self, personality, content_preferences):
-        super().__init__(personality, content_preferences)
+    def __init__(self, personality, content_preferences, api_key):
+        super().__init__(personality, content_preferences, api_key)
         self.activity_level = random.uniform(0.1, 0.5)
 
-    def generate_message(self):
+    def generate_message(self, context):
         if random.random() < self.activity_level:
-            return super().generate_message()
+            return super().generate_message(context)
         return None  # No message generated
 
     def interact(self, message: str) -> bool:

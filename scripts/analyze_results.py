@@ -14,7 +14,7 @@ from analysis.network_analysis import calculate_centrality, detect_communities, 
 from analysis.influencer_detection import identify_influencers, calculate_engagement_rate, analyze_influencer_trends
 from analysis.message_analysis import analyze_sentiment, extract_topics, track_message_spread
 
-def load_simulation_data(input_dir):
+def load_simulation_data(input_dir, api_key):
     network = SocialNetwork()
 
     # Load network structure
@@ -30,9 +30,9 @@ def load_simulation_data(input_dir):
     
     for agent_id, data in agent_data.items():
         if data['type'] == 'InfluencerAgent':
-            agent = InfluencerAgent(data['personality'], data['content_preferences'])
+            agent = InfluencerAgent(data['personality'], data['content_preferences'], api_key)
         else:
-            agent = CasualAgent(data['personality'], data['content_preferences'])
+            agent = CasualAgent(data['personality'], data['content_preferences'], api_key)
         
         agent.id = agent_id
         agent.connections = set(data['connections'])
@@ -115,7 +115,8 @@ def main():
     input_dir = os.path.join(results_dir, latest_simulation)
     
     print(f"Loading simulation data from {input_dir}...")
-    network = load_simulation_data(input_dir)
+    api_key = "ola"
+    network = load_simulation_data(input_dir, api_key)
     
     output_dir = os.path.join(input_dir, 'analysis')
     os.makedirs(output_dir, exist_ok=True)

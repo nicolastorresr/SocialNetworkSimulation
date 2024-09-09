@@ -1,6 +1,6 @@
 import networkx as nx
 from typing import List
-from src.agents.base_agent import BaseAgent
+from agents.base_agent import BaseAgent
 
 class SocialNetwork:
     def __init__(self):
