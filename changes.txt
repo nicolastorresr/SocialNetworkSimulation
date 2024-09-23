@@ -1,18 +1,48 @@
 ### Cambios realizados:
 
-1. **Referencias dentro de los archivos**: Se han actualizado las referencias en varios archivos para mejorar la consistencia y facilitar el mantenimiento del código.
-   
+1. **Referencias dentro de los archivos**: 
+   - Se actualizaron las referencias en varios archivos para mejorar la consistencia y facilitar el mantenimiento del código.
+
 2. **Agregado del parámetro `apikey`**: 
-   - El parámetro `apikey` ha sido agregado en la mayoría de las funciones presentes en los archivos del proyecto.
-   - En el archivo de análisis de resultados, el parámetro `apikey` se ha incluido únicamente como **place holder**, ya que no es utilizado directamente en el procesamiento de los resultados.
+   - Se incluyó el parámetro `apikey` en la mayoría de las funciones del proyecto.
+   - En el archivo de análisis de resultados, se agregó como **placeholder**, ya que no se utiliza directamente en el procesamiento de resultados.
 
 3. **Modificación del `threshold`**:
-   - Se ha ajustado el valor de `threshold` para que esté basado en un valor común de todos los participantes de la red, mejorando la estabilidad de los análisis realizados.
+   - Se ajustó el valor de `threshold` para basarse en un valor común de todos los participantes de la red, mejorando la estabilidad de los análisis.
 
+4. **Modificaciones en la inicialización de agentes**:
+   - Se ajustó el valor de `personalidades` para que estén en el rango de 0.2 a 1 con una variación de un solo decimal.
+
+5. **Creación de `sim_config.yaml`**:
+   - Se creó un archivo de configuración para contener un listado más amplio de personalidades y preferencias de contenido.
+   - Permite probar con hiperparámetros más restringidos.
+
+6. **Nuevos plots añadidos**:
+   - Se implementaron gráficos para visualizar la polarización de sentimientos.
+   - Se añadió un gráfico de frecuencia de palabras de los temas extraídos.
+   - Se creó un gráfico para mostrar la propagación de mensajes a lo largo del tiempo.
+   - Se añadió un gráfico de mensajes por agente.
+
+7. **Mejoramiento de la función `analyze_sentiment`**:
+   - Se mejoró la función para incluir conteos de sentimientos positivos, negativos y neutrales, proporcionando un análisis más detallado.
+
+8. run_simulation.py:
+	- s_s_d: todo lo relacionado a folder y sufix
+	- main(): todo lo relacionado a las iteraciones del sim.run
+   
+9. simulator.py:
+	- run(): sacado el for
+
+10. analyze_results.py:
+	- l_s_d(): todo lo relacionado a sufix
+	- a_n(): todo lo relacionado a sufix
+	- a_i(): todo lo relacionado a sufix
+	- a_m(): todo lo relacionado a sufix
+	- main(): todo lo relacionado a sufix
 ---
 
-### Tareas pendientes (antes del jueves):
+### Tareas pendientes:
 
-1. **Generalizar las personalidades de la red**: Hacer que las personalidades de la red sean más diversas.
+1. **Cambiar análisis de Influencer Rate vs Engagement Rate**: 
    
-2. **Generalizar el rango utilizado para el `threshold`**: Ajustar y generalizar el valor del `threshold`.
+2. **Estudiar el `threshold` y cómo se determina el Score de cada agente**
