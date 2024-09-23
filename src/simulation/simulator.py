@@ -11,10 +11,12 @@ class Simulator:
         self.num_agents = self.config['simulation']['num_agents']
         self.duration = self.config['simulation']['duration']
         self.api_key = self.config['llm']['api_key']
+        self.snapshots = [self.config['output']['save_network_snapshots'], self.config['output']['snapshot_frequency']]
 
     def initialize(self):
         for _ in range(self.num_agents):
-            personality = {trait: random.random() for trait in self.config['agents']['personality_traits']}
+            # personality = {trait: round(random.uniform(0.2, 1.0), 1) for trait in self.config['agents']['personality_traits']}
+            personality = {trait: round(random.uniform(0.2, 1.0), 1) for trait in random.sample(self.config['agents']['personality_traits'], 5)}
             content_preferences = random.sample(self.config['content']['topics'], 3)
             if random.random() < self.config['agents']['types'][0]['proportion']:
                 agent = InfluencerAgent(personality, content_preferences, self.api_key)
@@ -37,15 +39,12 @@ class Simulator:
                     potential_connections.remove(other_id)
 
     def run(self):
-        for step in range(self.duration):
-            print(step)
-            for agent in self.network.agents.values():
-                context = self._get_context(agent)
-                message = agent.generate_message(context)
-                if message:
-                    self.network.propagate_message(agent.id, message)
-            if step % self.config['network']['connection_update_frequency'] == 0:
-                self.update_network()
+        for agent in self.network.agents.values():
+            context = self._get_context(agent)
+            message = agent.generate_message(context)
+            if message:
+                self.network.propagate_message(agent.id, message)
+
 
     def _get_context(self, agent):
         context = []

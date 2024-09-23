@@ -4,11 +4,26 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 
 def analyze_sentiment(message):
-    positive_words = set(['good', 'great', 'excellent', 'amazing', 'wonderful'])
-    negative_words = set(['bad', 'terrible', 'awful', 'horrible', 'poor'])
+    positive_words = set([
+        'good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'positive', 'happy', 'joy', 'love'
+    ])
+    negative_words = set([
+        'bad', 'terrible', 'awful', 'horrible', 'poor', 'sad', 'negative', 'angry', 'hate', 'disgust'
+    ])
     words = message.lower().split()
-    sentiment = sum(1 for word in words if word in positive_words) - sum(1 for word in words if word in negative_words)
-    return sentiment
+
+    positive_count = sum(1 for word in words if word in positive_words)
+    negative_count = sum(1 for word in words if word in negative_words)
+
+    sentiment = positive_count - negative_count
+    total_words = positive_count + negative_count
+
+    if total_words > 0:
+        normalized_sentiment = sentiment / total_words
+    else:
+        normalized_sentiment = 0
+    return normalized_sentiment
+
 
 def extract_topics(messages, num_topics=5):
     vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='english')

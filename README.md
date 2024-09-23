@@ -1,6 +1,10 @@
 # SocialNetworkSimulation
 This project simulates a social network using autonomous agents based on Large Language Models (LLMs) to study the emergence of influencers and information spread patterns.
 
+## Considerations
+
+1. Having Python version greater than 3.9 and lower than 3.11.0
+
 ## Setup
 
 1. Clone the repository:

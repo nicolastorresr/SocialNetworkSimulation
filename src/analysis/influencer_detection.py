@@ -3,13 +3,11 @@ from collections import Counter
 
 def identify_influencers(network, threshold=0.8):
     pagerank = nx.pagerank(network.graph)
-    threshold=0.114
+    threshold=0.0254
     mydic={}
-    for agent in network.agents:
-        print(agent, network.agents[agent])
-    print("jdbcal")
+    print(len(pagerank))
     for node, score in pagerank.items():
-        print(node, score)
+        # print(node[:8], score, type(network.agents[node]), network.agents[node].content_preferences)
         if score >= threshold:
             mydic[node]=score
     return mydic
@@ -28,5 +26,6 @@ def analyze_influencer_trends(network, time_period):
         agent = network.agents[influencer_id]
         recent_messages = agent.messages[-time_period:]
         words = ' '.join(recent_messages).split()
-        trends.update(words)
+        hashtags = [word for word in words if word.startswith('#')]
+        trends.update(hashtags)
     return trends.most_common(10)

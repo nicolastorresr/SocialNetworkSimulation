@@ -1,0 +1,242 @@
+{
+  "agent1": {
+    "type": "CasualAgent",
+    "personality": {
+      "neuroticism": 0.5,
+      "adaptability": 0.2,
+      "honesty-humility": 0.3,
+      "curiosity": 0.4,
+      "openness": 0.8
+    },
+    "content_preferences": [
+      "travel",
+      "technology",
+      "gaming"
+    ],
+    "connections": [
+      "agent8",
+      "agent4",
+      "agent3"
+    ],
+    "messages": [
+      "Did you know about this new discovery?",
+      "Cannot wait for the big game tomorrow."
+    ]
+  },
+  "agent2": {
+    "type": "CasualAgent",
+    "personality": {
+      "honesty-humility": 0.7,
+      "ambition": 0.7,
+      "competitiveness": 0.4,
+      "emotional stability": 0.8,
+      "creativity": 0.4
+    },
+    "content_preferences": [
+      "fitness",
+      "photography",
+      "science"
+    ],
+    "connections": [
+      "agent9",
+      "agent7",
+      "agent4"
+    ],
+    "messages": [
+      "Did you know about this new discovery?",
+      "What a fantastic match today!"
+    ]
+  },
+  "agent3": {
+    "type": "CasualAgent",
+    "personality": {
+      "independence": 0.4,
+      "resilience": 0.9,
+      "emotional stability": 0.7,
+      "curiosity": 0.2,
+      "conscientiousness": 0.6
+    },
+    "content_preferences": [
+      "lifestyle",
+      "photography",
+      "technology"
+    ],
+    "connections": [
+      "agent6",
+      "agent1",
+      "agent5"
+    ],
+    "messages": [
+      "Check out the latest science news.",
+      "Enjoying the latest movie trends!"
+    ]
+  },
+  "agent4": {
+    "type": "CasualAgent",
+    "personality": {
+      "creativity": 0.8,
+      "self-efficacy": 0.3,
+      "agreeableness": 0.9,
+      "ambition": 0.4,
+      "assertiveness": 0.7
+    },
+    "content_preferences": [
+      "science",
+      "music",
+      "literature"
+    ],
+    "connections": [
+      "agent1",
+      "agent5",
+      "agent9"
+    ],
+    "messages": [
+      "The new policy is intriguing.",
+      "Science always blows my mind."
+    ]
+  },
+  "agent5": {
+    "type": "CasualAgent",
+    "personality": {
+      "patience": 0.8,
+      "curiosity": 0.7,
+      "trust": 0.2,
+      "emotional stability": 0.5,
+      "honesty-humility": 1.0
+    },
+    "content_preferences": [
+      "arts",
+      "music",
+      "environment"
+    ],
+    "connections": [
+      "agent6",
+      "agent10",
+      "agent1"
+    ],
+    "messages": [
+      "Loving the latest tech innovations.",
+      "The future of AI is promising!"
+    ]
+  },
+  "agent6": {
+    "type": "CasualAgent",
+    "personality": {
+      "agreeableness": 0.8,
+      "risk-taking": 0.2,
+      "honesty-humility": 0.6,
+      "curiosity": 0.6,
+      "openness": 0.7
+    },
+    "content_preferences": [
+      "science",
+      "food",
+      "gaming"
+    ],
+    "connections": [
+      "agent2",
+      "agent8",
+      "agent5"
+    ],
+    "messages": [
+      "Advancements in tech are fascinating.",
+      "Here is the latest in sports!"
+    ]
+  },
+  "agent7": {
+    "type": "CasualAgent",
+    "personality": {
+      "adaptability": 0.6,
+      "agreeableness": 0.5,
+      "competitiveness": 0.3,
+      "self-efficacy": 0.7,
+      "patience": 0.8
+    },
+    "content_preferences": [
+      "photography",
+      "politics",
+      "history"
+    ],
+    "connections": [
+      "agent9",
+      "agent1",
+      "agent5"
+    ],
+    "messages": [
+      "Check out the latest science news.",
+      "The new policy is intriguing."
+    ]
+  },
+  "agent8": {
+    "type": "CasualAgent",
+    "personality": {
+      "adaptability": 0.9,
+      "resilience": 0.8,
+      "creativity": 0.9,
+      "neuroticism": 0.6,
+      "patience": 0.8
+    },
+    "content_preferences": [
+      "education",
+      "fashion",
+      "photography"
+    ],
+    "connections": [
+      "agent1",
+      "agent5",
+      "agent2"
+    ],
+    "messages": [
+      "Check out the latest science news.",
+      "Loving the latest tech innovations."
+    ]
+  },
+  "agent9": {
+    "type": "CasualAgent",
+    "personality": {
+      "extraversion": 0.9,
+      "curiosity": 0.5,
+      "adaptability": 0.7,
+      "empathy": 0.5,
+      "neuroticism": 1.0
+    },
+    "content_preferences": [
+      "history",
+      "science",
+      "entrepreneurship"
+    ],
+    "connections": [
+      "agent3",
+      "agent8",
+      "agent7"
+    ],
+    "messages": [
+      "Political changes are on the horizon.",
+      "Tech advancements are speeding up."
+    ]
+  },
+  "agent10": {
+    "type": "CasualAgent",
+    "personality": {
+      "agreeableness": 0.6,
+      "humor": 0.6,
+      "resilience": 0.4,
+      "trust": 0.3,
+      "creativity": 0.8
+    },
+    "content_preferences": [
+      "travel",
+      "entrepreneurship",
+      "psychology"
+    ],
+    "connections": [
+      "agent9",
+      "agent1",
+      "agent4"
+    ],
+    "messages": [
+      "Science is amazing.",
+      "Just watched the latest movie, it was awesome!"
+    ]
+  }
+}

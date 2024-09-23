@@ -1,0 +1,86 @@
+llm:
+  api_key: "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"
+
+simulation:
+  num_agents: 4  # agents
+  duration: 4  # time steps
+  initial_network_type: "scale_free"  # options: random, scale_free, small_world
+
+agents:
+  types:
+    - name: "influencer"
+      proportion: 0.3
+      content_generation_rate: 0.5  # messages per time step
+    - name: "casual"
+      proportion: 0.7
+      content_generation_rate: 0.1  # messages per time step
+
+  personality_traits:
+    - openness
+    - conscientiousness
+    - extraversion
+    - agreeableness
+    - neuroticism
+    - honesty-humility
+    - self-efficacy
+    - assertiveness
+    - emotional stability
+    - altruism
+    - curiosity
+    - risk-taking
+    - optimism
+    - creativity
+    - empathy
+    - resilience
+    - adaptability
+    - patience
+    - independence
+    - competitiveness
+    - trust
+    - humor
+    - ambition
+
+content:
+  topics:
+    - technology
+    - science
+    - politics
+    - sports
+    - arts
+    - health
+    - travel
+    - food
+    - fashion
+    - music
+    - movies
+    - literature
+    - history
+    - gaming
+    - environment
+    - education
+    - finance
+    - fitness
+    - photography
+    - entrepreneurship
+    - lifestyle
+    - psychology
+  max_length: 20  # characters
+
+network:
+  initial_connections_mean: 5
+  initial_connections_std: 2
+  connection_update_frequency: 6  # time steps
+
+analysis:
+  centrality_measure: "pagerank"  # options: degree, betweenness, pagerank
+  community_detection_algorithm: "louvain"
+  influencer_threshold: 0.5  # pagerank score
+  topic_modeling:
+    num_topics: 4
+    method: "lda"  # options: lda, nmf
+
+output:
+  save_network_snapshots: true
+  snapshot_frequency: 1  # time steps
+  save_messages: true
+  save_agent_states: true
