@@ -1,0 +1,18 @@
+### Cambios realizados:
+
+1. **Referencias dentro de los archivos**: Se han actualizado las referencias en varios archivos para mejorar la consistencia y facilitar el mantenimiento del código.
+   
+2. **Agregado del parámetro `apikey`**: 
+   - El parámetro `apikey` ha sido agregado en la mayoría de las funciones presentes en los archivos del proyecto.
+   - En el archivo de análisis de resultados, el parámetro `apikey` se ha incluido únicamente como **place holder**, ya que no es utilizado directamente en el procesamiento de los resultados.
+
+3. **Modificación del `threshold`**:
+   - Se ha ajustado el valor de `threshold` para que esté basado en un valor común de todos los participantes de la red, mejorando la estabilidad de los análisis realizados.
+
+---
+
+### Tareas pendientes (antes del jueves):
+
+1. **Generalizar las personalidades de la red**: Hacer que las personalidades de la red sean más diversas.
+   
+2. **Generalizar el rango utilizado para el `threshold`**: Ajustar y generalizar el valor del `threshold`.
