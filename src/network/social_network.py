@@ -1,3 +1,4 @@
+import random
 import networkx as nx
 from typing import List
 from agents.base_agent import BaseAgent

@@ -11,12 +11,14 @@ class Simulator:
         self.num_agents = self.config['simulation']['num_agents']
         self.duration = self.config['simulation']['duration']
         self.api_key = self.config['llm']['api_key']
-        self.snapshots = [self.config['output']['save_network_snapshots'], self.config['output']['snapshot_frequency']]
+        self.save_network_snapshots = self.config['output']['save_network_snapshots']
+        self.snapshot_frequency = self.config['output']['snapshot_frequency']
+        self.save_initial_network_state = self.config['output']['save_initial_network_state']
 
     def initialize(self):
         for _ in range(self.num_agents):
             # personality = {trait: round(random.uniform(0.2, 1.0), 1) for trait in self.config['agents']['personality_traits']}
-            personality = {trait: round(random.uniform(0.2, 1.0), 1) for trait in random.sample(self.config['agents']['personality_traits'], 5)}
+            personality = {trait: round(random.uniform(0.4, 1.0), 1) for trait in random.sample(self.config['agents']['personality_traits'], 5)}
             content_preferences = random.sample(self.config['content']['topics'], 3)
             if random.random() < self.config['agents']['types'][0]['proportion']:
                 agent = InfluencerAgent(personality, content_preferences, self.api_key)
@@ -55,3 +57,29 @@ class Simulator:
     def update_network(self):
         for agent in self.network.agents.values():
             agent.update_connections(self.network)
+
+    def invite_agent(self):        
+        agent = self.network.agents[random.choice(list(self.network.agents.keys()))]
+
+        personality = {trait: round(random.uniform(0, 1.0), 1) for trait in agent.personality}
+        content_preferences = agent.content_preferences
+        
+        invited_agent = type(agent)(personality, content_preferences, self.api_key)
+
+        self.network.add_agent(invited_agent)
+        self.network.graph.add_node(invited_agent.id)
+        self.network.agents[invited_agent.id] = invited_agent
+
+        for invited_agent in self.network.agents.values():
+            num_connections = int(random.gauss(
+            self.config['network']['initial_connections_mean'],
+            self.config['network']['initial_connections_std']
+        ))
+        potential_connections = set(self.network.agents.keys()) - {agent.id}
+
+        for _ in range(num_connections):
+            if potential_connections:
+                other_id = random.choice(list(potential_connections))
+                self.network.add_connection(agent.id, other_id)
+                potential_connections.remove(other_id)
+        self.network.add_connection(invited_agent.id, agent.id)

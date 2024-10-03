@@ -82,9 +82,7 @@ class BaseAgent:
     def update_connections(self, network):
         # Remove connections with low interaction
         to_remove = [conn for conn in self.connections if random.random() < 0.1]
-        # for agent in self.connections:
-        #     print(agent)
-        # print("jnbdYV6EW")
+
         for conn in to_remove:
             #self.connections.remove(conn)
             network.remove_connection(self.id, conn)

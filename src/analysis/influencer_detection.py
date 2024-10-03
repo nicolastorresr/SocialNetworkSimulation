@@ -5,7 +5,6 @@ def identify_influencers(network, threshold=0.8):
     pagerank = nx.pagerank(network.graph)
     threshold=0.0254
     mydic={}
-    print(len(pagerank))
     for node, score in pagerank.items():
         # print(node[:8], score, type(network.agents[node]), network.agents[node].content_preferences)
         if score >= threshold:
