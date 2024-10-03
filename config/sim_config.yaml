@@ -2,15 +2,15 @@ llm:
   api_key: "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"
 
 simulation:
-  num_agents: 4  # agents
-  duration: 4  # time steps
+  num_agents: 10  # agents
+  duration: 40  # time steps
   initial_network_type: "scale_free"  # options: random, scale_free, small_world
 
 agents:
   types:
     - name: "influencer"
       proportion: 0.3
-      content_generation_rate: 0.5  # messages per time step
+      content_generation_rate: 0.9  # messages per time step
     - name: "casual"
       proportion: 0.7
       content_generation_rate: 0.1  # messages per time step
@@ -24,21 +24,31 @@ agents:
     - honesty-humility
     - self-efficacy
     - assertiveness
+    - distrust
     - emotional stability
     - altruism
+    - indifference
+    - arrogance
     - curiosity
+    - negativity
     - risk-taking
+    - sarcasm
     - optimism
     - creativity
+    - pessimism
     - empathy
+    - cynicism
     - resilience
     - adaptability
     - patience
+    - impulsivity
     - independence
+    - inflexibility
     - competitiveness
     - trust
     - humor
     - ambition
+    - selfishness
 
 content:
   topics:
@@ -64,12 +74,13 @@ content:
     - entrepreneurship
     - lifestyle
     - psychology
-  max_length: 20  # characters
+  max_length: 80  # characters
 
 network:
   initial_connections_mean: 5
   initial_connections_std: 2
-  connection_update_frequency: 6  # time steps
+  connection_update_frequency: 5  # time steps
+  agent_invitation_frequency: 6
 
 analysis:
   centrality_measure: "pagerank"  # options: degree, betweenness, pagerank
@@ -81,6 +92,7 @@ analysis:
 
 output:
   save_network_snapshots: true
-  snapshot_frequency: 1  # time steps
+  snapshot_frequency: 5                 # time steps
   save_messages: true
   save_agent_states: true
+  save_initial_network_state: false
