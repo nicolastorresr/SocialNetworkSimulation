@@ -1,0 +1,37 @@
+{
+    "sentiments": [
+        0,
+        1.0,
+        0,
+        1.0,
+        0,
+        0
+    ],
+    "positive_count": 2,
+    "neutral_count": 4,
+    "negative_count": 0,
+    "topics": [
+        "Topic 0: creativity, entrepreneurship, humor, remember, wrapped, meets, crafted, entrepreneurial, fascinating, favorite",
+        "Topic 1: game, psychological, head, ve, mind, just, remember, humor, finished, reading",
+        "Topic 2: like, just, knew, reading, humor, finished, remember, mind, ve, head",
+        "Topic 3: like, knew, reading, finished, just, humor, remember, mind, ve, head",
+        "Topic 4: like, just, knew, reading, humor, finished, remember, mind, ve, head"
+    ],
+    "spread": {
+        "0": 1,
+        "2": 1
+    },
+    "message_counts": {
+        "c5b58f27-1a1a-4893-a876-0cf118f4bfc6": 0,
+        "9a9360f5-f5a9-4017-8000-1bac4fa7bab8": 1,
+        "cd555400-e2f9-4294-9d88-f8b447d43ed4": 1,
+        "32217cac-face-4186-a0ba-179bafa62c1d": 0,
+        "7d8c2443-72a9-4a78-84ec-b7b1060c4f2a": 0,
+        "e1ea32b4-00a5-4ea3-a344-f1afddcb5967": 0,
+        "b87c2719-3709-46d5-b5f4-e80ded292971": 1,
+        "e7e6e2f2-8613-46f7-a441-f6391351d77b": 1,
+        "27bbc370-6bf3-4130-a00a-30a72f2e02d0": 1,
+        "eb2a107b-fb7c-4f3b-b894-b11540e2c2fb": 1,
+        "3dd471ec-4d3c-48be-ab49-3185edc2a7cc": 0
+    }
+}
