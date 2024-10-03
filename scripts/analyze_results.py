@@ -18,14 +18,14 @@ def load_simulation_data(input_dir, api_key, sufix=""):
     network = SocialNetwork()
 
     # Load network structure
-    with open(os.path.join(input_dir, 'network_structure'+sufix+'.json'), 'r') as f:
+    with open(os.path.join(input_dir, 'network_structure.json'), 'r') as f:
         network_data = json.load(f)
     
     network.graph.add_nodes_from(network_data['nodes'])
     network.graph.add_edges_from(network_data['edges'])
 
     # Load agent data
-    with open(os.path.join(input_dir, 'agent_data'+sufix+'.json'), 'r') as f:
+    with open(os.path.join(input_dir, 'agent_data.json'), 'r') as f:
         agent_data = json.load(f)
     
     for agent_id, data in agent_data.items():
@@ -45,35 +45,35 @@ def analyze_network(network, output_dir, sufix=""):
     print("Analyzing network...")
     # Calculate and save centrality
     centrality = calculate_centrality(network)
-    with open(os.path.join(output_dir, 'centrality'+sufix+'.json'), 'w') as f:
+    with open(os.path.join(output_dir, 'centrality.json'), 'w') as f:
         json.dump({str(k): v for k, v in centrality.items()}, f)
 
     # Detect and save communities
     communities = detect_communities(network)
-    with open(os.path.join(output_dir, 'communities'+sufix+'.json'), 'w') as f:
+    with open(os.path.join(output_dir, 'communities.json'), 'w') as f:
         json.dump([list(c) for c in communities], f)
 
     # Calculate and save clustering coefficient
     clustering_coeff = calculate_clustering_coefficient(network)
-    with open(os.path.join(output_dir, 'clustering_coefficient'+sufix+'.txt'), 'w') as f:
+    with open(os.path.join(output_dir, 'clustering_coefficient.txt'), 'w') as f:
         f.write(str(clustering_coeff))
 
     # Visualize network
     visualize_network(network)
-    plt.savefig(os.path.join(output_dir, 'network_visualization'+sufix+'.png'))
+    plt.savefig(os.path.join(output_dir, 'network_visualization.png'))
 
 def analyze_influencers(network, output_dir, sufix=""):
     print("Analyzing influencers...")
     influencers = identify_influencers(network)
-    with open(os.path.join(output_dir, 'influencers'+sufix+'.json'), 'w') as f:
+    with open(os.path.join(output_dir, 'influencers.json'), 'w') as f:
         json.dump({str(k): v for k, v in influencers.items()}, f)
 
     engagement_rates = {agent_id: calculate_engagement_rate(network, agent_id) for agent_id in influencers}
-    with open(os.path.join(output_dir, 'engagement_rates'+sufix+'.json'), 'w') as f:
+    with open(os.path.join(output_dir, 'engagement_rates.json'), 'w') as f:
         json.dump({str(k): v for k, v in engagement_rates.items()}, f)
 
     trends = analyze_influencer_trends(network, time_period=100)
-    with open(os.path.join(output_dir, 'influencer_trends'+sufix+'.json'), 'w') as f:
+    with open(os.path.join(output_dir, 'influencer_trends.json'), 'w') as f:
         json.dump(trends, f)
 
 def analyze_messages(network, output_dir, sufix=""):
@@ -91,7 +91,7 @@ def analyze_messages(network, output_dir, sufix=""):
 
     # Extract topics
     topics = extract_topics(all_messages)
-    with open(os.path.join(output_dir, 'topics'+sufix+'.txt'), 'w') as f:
+    with open(os.path.join(output_dir, 'topics.txt'), 'w') as f:
         f.write('\n'.join(topics))
 
     # Track message spread
@@ -123,27 +123,32 @@ def main():
     simulation_dirs = [d for d in os.listdir(results_dir) if d.startswith('simulation_results_')]
     latest_simulation = max(simulation_dirs)
     input_dir = os.path.join(results_dir, latest_simulation)
-    
     print(f"Loading simulation data from {input_dir}...")
-    api_key = "ola"
+    api_key = ""
     output_dir = os.path.join(input_dir, 'analysis')
     os.makedirs(output_dir, exist_ok=True)
 
-    sufix = "_final"
-    folder= ""
-    os.makedirs(output_dir+"/"+sufix[1:], exist_ok=True)
-    network = load_simulation_data(input_dir+folder, api_key, sufix)
+    if os.path.isdir(input_dir+"/snapshots"):
+        print("Loading simulation data from "+input_dir+"/snapshots...")
+        iteraciones = 0
+        flag = False
+        for carpeta_raiz, subcarpetas, archivos in os.walk(input_dir+"/snapshots"):
+            if flag:
+                network = load_simulation_data(carpeta_raiz, api_key)
+                sufix_actual = carpeta_raiz.strip().split("/")[-1]
+                os.makedirs(output_dir+"/"+sufix_actual, exist_ok=True)
+                analyze_network(network, output_dir+"/"+sufix_actual)
+                analyze_influencers(network, output_dir+"/"+sufix_actual)
+                analyze_messages(network, output_dir+"/"+sufix_actual)
 
-    analyze_network(network, output_dir+"/"+sufix[1:])
-    analyze_influencers(network, output_dir+"/"+sufix[1:])
-    analyze_messages(network, output_dir+"/"+sufix[1:])
+            flag = True
 
-    # for agent in network.agents:
-    #     for i in network.agents[agent].connections:
-    #         print(type(network.agents[i]))
-    #     print("\n")
-        
+    network = load_simulation_data(input_dir, api_key)
+    analyze_network(network, output_dir)
+    analyze_influencers(network, output_dir)
+    analyze_messages(network, output_dir)
+
     print(f"Analysis completed. Results saved in {output_dir}")
-
+    
 if __name__ == "__main__":
     main()

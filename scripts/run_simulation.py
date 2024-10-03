@@ -8,17 +8,18 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 's
 
 from simulation.simulator import Simulator
 
-def save_simulation_data(network, output_dir, sufix, folder=""):
+def save_simulation_data(network, output_dir,iter="", folder=""):
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     os.makedirs(output_dir+folder, exist_ok=True)
+    os.makedirs(output_dir+folder+iter, exist_ok=True)
 
     # Save network structure
     network_data = {
         'nodes': list(network.graph.nodes()),
         'edges': list(network.graph.edges())
     }
-    with open(os.path.join(output_dir+folder, 'network_structure_'+sufix+'.json'), 'w') as f:
+    with open(os.path.join(output_dir+folder+iter, 'network_structure.json'), 'w') as f:
         json.dump(network_data, f)
 
     # Save agent data
@@ -31,8 +32,29 @@ def save_simulation_data(network, output_dir, sufix, folder=""):
             'messages': agent.messages
         } for agent in network.agents.values()
     }
-    with open(os.path.join(output_dir+folder, 'agent_data_'+sufix+'.json'), 'w') as f:
+    with open(os.path.join(output_dir+folder+iter, 'agent_data.json'), 'w') as f:
         json.dump(agent_data, f)
+
+def running(sim, output_dir):
+    print("Running simulation...")
+    if sim.save_initial_network_state:
+        save_simulation_data(sim.network, output_dir,folder="/initial/")
+
+    for step in range(sim.duration):
+        print("Step: "+str(step))
+        sim.run()
+
+        if step % sim.config['network']['connection_update_frequency'] == 0:
+            sim.update_network()
+
+        if step % sim.config['network']['agent_invitation_frequency'] == 0:
+            sim.invite_agent()
+
+        if (step % sim.snapshot_frequency == 0) and (sim.save_network_snapshots):
+            # each snapshots is saved on a folder named by its iteration
+            save_simulation_data(sim.network, output_dir, str(step),"/snapshots/") 
+    print("Simulation completed.")
+    
 
 def main():
     config_path = 'config/sim_config.yaml'
@@ -43,23 +65,10 @@ def main():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = f'data/simulation_results_{timestamp}'
 
-    save_simulation_data(sim.network, output_dir, "init")
-    
-    print("Running simulation...")
-    for step in range(sim.duration):
-        print(step)
-        sim.run()
-
-        if step % sim.config['network']['connection_update_frequency'] == 0:
-            sim.update_network()
-
-        if (step % sim.snapshots[1] == 0) and (sim.snapshots[0]):
-            save_simulation_data(sim.network, output_dir, str(step),"/snapshots/")
-    
-    print("Simulation completed.")
-    
-    # Save simulation results
-    save_simulation_data(sim.network, output_dir, "final")
+    # Run simulations
+    running(sim, output_dir)
+    # Save final simulation state
+    save_simulation_data(sim.network, output_dir, "")
     
     print(f"Simulation data saved in {output_dir}")
 
