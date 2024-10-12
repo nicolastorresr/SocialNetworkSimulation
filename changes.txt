@@ -22,18 +22,22 @@
    - Se añadió un gráfico de frecuencia de palabras de los temas extraídos.
    - Se creó un gráfico para mostrar la propagación de mensajes a lo largo del tiempo.
    - Se añadió un gráfico de mensajes por agente.
+   - Se añadió un gráfico de evolución de personalidad y preferencias por agente.
 
 7. **Mejoramiento de la función `analyze_sentiment`**:
    - Se mejoró la función para incluir conteos de sentimientos positivos, negativos y neutrales, proporcionando un análisis más detallado.
 
-8. run_simulation.py:
+8. **Creación de dos nuevas funciones `network_evolution` y `agent_evolution_prompt`**:
+   - Funciones que evaluan la evolución de los agente a través del tiempo, con ayuda de GPT.
+
+9. run_simulation.py:
 	- s_s_d: todo lo relacionado a folder y sufix
 	- main(): todo lo relacionado a las iteraciones del sim.run
    
-9. simulator.py:
+10. simulator.py:
 	- run(): sacado el for
 
-10. analyze_results.py:
+11. analyze_results.py:
 	- l_s_d(): todo lo relacionado a sufix
 	- a_n(): todo lo relacionado a sufix
 	- a_i(): todo lo relacionado a sufix
@@ -43,6 +47,4 @@
 
 ### Tareas pendientes:
 
-1. **Cambiar análisis de Influencer Rate vs Engagement Rate**: 
-   
-2. **Estudiar el `threshold` y cómo se determina el Score de cada agente**
+1. **Implementar bien la función de influencia de tópico**
