@@ -24,7 +24,6 @@ def analyze_sentiment(message):
         normalized_sentiment = 0
     return normalized_sentiment
 
-
 def extract_topics(messages, num_topics=5):
     vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='english')
     doc_term_matrix = vectorizer.fit_transform(messages)

@@ -1,6 +1,9 @@
 import os
 import sys
 import json
+import yaml
+import openai
+from typing import Dict, List, Optional
 import matplotlib.pyplot as plt
 from collections import Counter
 
@@ -11,11 +14,18 @@ from network.social_network import SocialNetwork
 from agents.base_agent import BaseAgent
 from agents.agent_types import InfluencerAgent, CasualAgent
 from analysis.network_analysis import calculate_centrality, detect_communities, calculate_clustering_coefficient, visualize_network
-from analysis.influencer_detection import identify_influencers, calculate_engagement_rate, analyze_influencer_trends
+from analysis.influencer_detection import identify_influencers, calculate_engagement_rate, measure_topic_influence, analyze_influencer_trends
 from analysis.message_analysis import analyze_sentiment, extract_topics, track_message_spread
 
 def load_simulation_data(input_dir, api_key, sufix=""):
     network = SocialNetwork()
+
+    config_path = 'config/sim_config.yaml'
+    with open(config_path, 'r') as file:
+        config = yaml.safe_load(file)
+
+    network.pool_personality = config["agents"]["personality_traits"]
+    network.pool_preference = config["content"]["topics"]
 
     # Load network structure
     with open(os.path.join(input_dir, 'network_structure.json'), 'r') as f:
@@ -71,6 +81,10 @@ def analyze_influencers(network, output_dir, sufix=""):
     engagement_rates = {agent_id: calculate_engagement_rate(network, agent_id) for agent_id in influencers}
     with open(os.path.join(output_dir, 'engagement_rates.json'), 'w') as f:
         json.dump({str(k): v for k, v in engagement_rates.items()}, f)
+    
+    # topic_influence = measure_topic_influence(network)
+    # with open(os.path.join(output_dir, 'topic_influence.json'), 'w') as f:
+    #     json.dump({str(k): v for k, v in topic_influence.items()}, f)
 
     trends = analyze_influencer_trends(network, time_period=100)
     with open(os.path.join(output_dir, 'influencer_trends.json'), 'w') as f:
@@ -117,6 +131,68 @@ def analyze_messages(network, output_dir, sufix=""):
 
     print(f"Results saved to {output_dir}")
 
+def network_evolution(network, output_dir):
+    agent_evolution = {}
+    for agent in network.agents:
+        context = network.agents[agent].messages
+        print(agent)
+        prompt = agent_evolution_prompt(network.pool_personality, network.pool_preference, context)
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": prompt}
+                ],
+                max_tokens=200
+            )
+            agent_evolution[agent] = {
+                "detected_traits_and_preferences": response.choices[0].message['content'].strip()
+            }
+        except Exception as e:
+            print(f"Error generating personality analysis for agent {agent}: {e}")
+            return None
+        
+        topics = response.choices[0].message['content'].strip().split("\n")
+        personalities = topics[0]
+        print(topics)
+        topics = topics[1]
+        personalities = personalities.split(",")
+        topics = topics.split(",")
+
+        grade_t = 0
+        grade_p = 0
+
+        for topic in topics:
+            if topic.strip() in network.agents[agent].content_preferences:
+                grade_t +=1
+        
+        for personality in personalities:
+            if personality.strip() in network.agents[agent].personality:
+                grade_p +=1
+        
+        
+        agent_evolution[agent]["grade_t"] = 3 - grade_t
+        agent_evolution[agent]["grade_p"] = 5 - grade_p
+
+    with open(os.path.join(output_dir, 'agent_evolution.json'), 'w') as json_file:
+        json.dump(agent_evolution, json_file, indent=4)
+
+def agent_evolution_prompt(pool_personality, pool_preference, context):
+    context_str = "\n".join(context[-5:])  # Use last 5 messages for context
+
+    return f"""
+    You are a personality and content preference analyzer. Based on the following list of possible personality traits and content preferences, 
+    analyze the recent messages and infer the most relevant traits and preferences.
+
+    Possible personality traits: {pool_personality}
+    Possible content preferences: {pool_preference}
+
+    Recent messages:
+    {context_str}
+
+    Based on this information, only provide a list without format and without newlines of 5 personalities traits and a second list without format and without newlines of 3 content preferences that best match the sender's behavior.
+    """
+
 def main():
     # Assume the latest simulation result is in the most recently created directory
     results_dir = 'data'
@@ -124,7 +200,7 @@ def main():
     latest_simulation = max(simulation_dirs)
     input_dir = os.path.join(results_dir, latest_simulation)
     print(f"Loading simulation data from {input_dir}...")
-    api_key = ""
+    api_key = "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"
     output_dir = os.path.join(input_dir, 'analysis')
     os.makedirs(output_dir, exist_ok=True)
 
@@ -147,6 +223,9 @@ def main():
     analyze_network(network, output_dir)
     analyze_influencers(network, output_dir)
     analyze_messages(network, output_dir)
+
+    openai.api_key = api_key
+    network_evolution(network,output_dir)
 
     print(f"Analysis completed. Results saved in {output_dir}")
     
