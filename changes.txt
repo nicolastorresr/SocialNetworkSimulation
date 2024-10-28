@@ -43,8 +43,5 @@
 	- a_i(): todo lo relacionado a sufix
 	- a_m(): todo lo relacionado a sufix
 	- main(): todo lo relacionado a sufix
----
 
-### Tareas pendientes:
-
-1. **Implementar bien la función de influencia de tópico**
+12. Se implementó un plot para saber si los agentes han cambiado sus personalidades.
