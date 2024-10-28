@@ -2,8 +2,8 @@ llm:
   api_key: "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"
 
 simulation:
-  num_agents: 10  # agents
-  duration: 40  # time steps
+  num_agents: 20  # agents
+  duration: 50  # time steps
   initial_network_type: "scale_free"  # options: random, scale_free, small_world
 
 agents:

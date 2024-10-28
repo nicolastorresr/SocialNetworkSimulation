@@ -190,7 +190,9 @@ def agent_evolution_prompt(pool_personality, pool_preference, context):
     Recent messages:
     {context_str}
 
-    Based on this information, only provide a list without format and without newlines of 5 personalities traits and a second list without format and without newlines of 3 content preferences that best match the sender's behavior.
+    Based on this information, ONLY AND EXCLUSIVELY GENERATE TWO LISTS. The first list correspond to 5 personalities traits and the second list corresponds to 3 content preferences that best match the sender's behavior. The format is: 
+    element1, element2, ... , element5
+    element1, element2,  element3
     """
 
 def main():
