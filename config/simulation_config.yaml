@@ -1,5 +1,5 @@
 llm:
-  api_key: "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"
+  api_key: "YOUR_API_KEY"
 
 simulation:
   num_agents: 10
